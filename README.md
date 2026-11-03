@@ -1,34 +1,22 @@
-# HoverLite 🦝
+# HoverLite v0.5 | Release Candidate
 
-A lightweight RuneLite Plugin Hub plugin by Feral Enterprises. Customize mouse hover tooltips by the type of target without changing clicks or menus.
+Lightweight RuneLite tooltip customization. **Auto Shorten is ON by default** for NPC and game-object hover text. The plugin changes *display text only*: it never edits RuneLite menu entries or player actions.
 
-**Status:** Plugin Hub submission candidate. Successfully tested by the owner in a local RuneLite development client; Plugin Hub has not approved or published this plugin. Duke Sucellus-specific QA is pending.
+## Examples
+- `Attack Guard (level-21)` -> `Attack Guard`
+- `Chop down Tree` -> `Chop Tree`
+- `Chop down Oak tree` -> `Chop Oak`
+- `Mine Iron rocks` -> `Mine Iron`
+- Unknown or safety-sensitive interactions keep their wording.
 
-## What it does
+## Compatibility
+Disable RuneLite's built-in **Mouse Tooltips** when using HoverLite; otherwise two tooltip plugins can render simultaneously. Keep the full text for items and selected spell/item actions.
 
-- **NPCs:** default to **Action only**, so `Feed Duke Sucellus (level-758)` becomes `Feed`.
-- **Inventory / item panels:** default to **Full action + target**, keeping item information.
-- **World objects, ground items, players, interface widgets, and other actions:** each has an independent mode.
-- Each category supports **Full**, **Action only**, **Indicator only** (a small green dot), or **Hidden**.
-- Optional filtering of trivial interactions, plus a setting to respect native game tooltips.
+## Windows owner release check
+Close other development clients, extract into a fresh folder, and run `BUILD-AND-RUN.cmd`. The launcher runs Gradle tests and opens RuneLite. Then verify Guard, Tree, Oak, inventory and a selected-item action. Do not publish until the **exact clean release source** passes native QA.
 
-**Important:** Turn off RuneLite's built-in **Mouse Tooltips** plugin while HoverLite is enabled, or both tooltip renderers may appear. HoverLite does **not** hide the game's separate top-left action text.
+## Release path
+Publish these source files to `feralenterprises/hoverlite`. For the Plugin Hub, update only `plugins/hoverlite` in a pull request with the published 40-character commit SHA. The public plugin remains on its previous commit until the update is merged.
 
-HoverLite does not modify menu entries, target selection, clickboxes, click handling, or game state. It does not make network calls, collect account data, or write files.
-
-## Development
-
-The project targets Java 11 and `latest.release` of RuneLite, and includes `runelite-plugin.properties` with `build=standard` for Plugin Hub. To run a local development client, use the Gradle `run` task with an installed Java JDK and Gradle, or develop in IntelliJ as described in [RuneLite's example plugin](https://github.com/runelite/example-plugin). RuneLite's Jagex-account development login guidance is available [here](https://github.com/runelite/runelite/wiki/Using-Jagex-Accounts).
-
-`src/test` includes a development launcher and formatter tests.
-
-## Notes
-
-- Independent categories are inferred from RuneLite's action/menu entry types.
-- Uses RuneLite's standard tooltip rendering, with no custom font, opacity, or cursor offset controls.
-- When a native game tooltip is active, HoverLite can suppress its own overlay to avoid conflicts.
-- This repository contains only the plugin source and build metadata, not the optional Windows bootstrap scripts used for the owner's local QA.
-
-## License
-
-MIT. See [LICENSE](LICENSE).
+## Provenance
+Derived from owner's native-tested HoverLite v0.5-R04. Removed **only** the temporary QA tooltip marker, raw-target diagnostic code, and forensic-only tests; preserved parser and action/target shortening rules. Independent official Gradle and post-clean native testing still required.

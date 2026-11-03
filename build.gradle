@@ -23,7 +23,7 @@ dependencies {
 }
 
 group = 'com.feralenterprises'
-version = '0.1.1'
+version = '0.5'
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'

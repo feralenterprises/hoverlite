@@ -4,6 +4,7 @@ package com.feralenterprises.hoverlite;
 public enum HoverMode
 {
     FULL("Full action + target"),
+    SMART_SHORTEN("Auto Shorten"),
     ACTION_ONLY("Action only"),
     INDICATOR("Indicator only"),
     HIDDEN("Hidden");
