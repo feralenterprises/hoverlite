@@ -9,7 +9,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
     name = "HoverLite",
-    description = "Customize mouse hover tooltips by target type; keep inventory text, simplify NPCs",
+    description = "Auto-shorten NPC and object hover text while preserving useful inventory text",
     tags = {"mouse", "tooltips", "hover", "accessibility", "customization"}
 )
 public class HoverLitePlugin extends Plugin
