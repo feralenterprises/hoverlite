@@ -44,6 +44,14 @@ final class TargetShorten
             {
                 replacement = "Coal";
             }
+            else if (action.equalsIgnoreCase("Sort-salvage") && name.equalsIgnoreCase("Salvaging station"))
+            {
+                replacement = "salvage";
+            }
+            else if (action.equalsIgnoreCase("Inspect") && name.equalsIgnoreCase("Notice board"))
+            {
+                replacement = "board";
+            }
         }
         else if (category == HoverCategory.NPC && action.equalsIgnoreCase("Exchange")
             && name.equalsIgnoreCase("Tool Leprechaun"))

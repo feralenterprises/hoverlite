@@ -49,6 +49,10 @@ final class CoreAction
             {
                 replacement = "Pick";
             }
+            else if (action.equalsIgnoreCase("Sort-salvage") && name.equalsIgnoreCase("Salvaging station"))
+            {
+                replacement = "Sort";
+            }
         }
         if (replacement == null)
         {
