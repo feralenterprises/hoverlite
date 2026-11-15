@@ -91,7 +91,7 @@ public class HoverLiteOverlay extends Overlay
             }
         }
         HoverCategory category = HoverCategory.from(entry);
-        HoverMode mode = effectiveMode(category, type);
+        HoverMode mode = effectiveMode(category, type, target);
         String value = HoverText.format(mode, category, action, target);
         if (value != null)
         {
@@ -110,7 +110,7 @@ public class HoverLiteOverlay extends Overlay
                     final HoverCategory otherCategory = HoverCategory.from(other);
                     final String otherOriginal = HoverText.format(HoverMode.FULL, otherCategory,
                         other.getOption(), other.getTarget());
-                    final String otherVisible = HoverText.format(effectiveMode(otherCategory, other.getType()), otherCategory,
+                    final String otherVisible = HoverText.format(effectiveMode(otherCategory, other.getType(), other.getTarget()), otherCategory,
                         other.getOption(), other.getTarget());
                     if (TooltipCollisionGuard.isAmbiguous(original, value, otherOriginal, otherVisible))
                     {
@@ -135,9 +135,25 @@ public class HoverLiteOverlay extends Overlay
         return null;
     }
 
-    private HoverMode effectiveMode(HoverCategory category, MenuAction actionType)
+    private HoverMode effectiveMode(HoverCategory category, MenuAction actionType, String target)
     {
         final HoverMode configured = HoverModePolicy.resolve(category, modeFor(category), config.autoShortenEnabled());
+
+        // Both lists are for ordinary NPC interactions only, never selected
+        // spell/item actions. These select tooltip presentation, NOT MenuEntry data.
+        if (category == HoverCategory.NPC && AutoShortenSafety.allows(actionType))
+        {
+            // An explicit "action only" choice wins over global/whitelisted shortening.
+            if (NpcNameWhitelist.contains(config.npcActionOnlyWhitelist(), target))
+            {
+                return HoverMode.ACTION_ONLY;
+            }
+            if (NpcNameWhitelist.contains(config.npcAutoShortenWhitelist(), target))
+            {
+                return HoverMode.SMART_SHORTEN;
+            }
+        }
+
         return configured == HoverMode.SMART_SHORTEN && !AutoShortenSafety.allows(actionType)
             ? HoverMode.FULL : configured;
     }

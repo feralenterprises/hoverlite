@@ -14,7 +14,13 @@ public interface HoverLiteConfig extends Config
     @ConfigSection(name = "Fallback display", description = "Used when Auto Shorten is turned off, or for other categories", position = 1)
     String DISPLAY = "display";
 
-    @ConfigSection(name = "Behavior", description = "Tooltip safety and convenience options", position = 2)
+    @ConfigSection(name = "Auto-Shorten NPCs", description = "Shorten only listed NPCs when global Auto Shorten is off", position = 2)
+    String AUTO_WHITELIST = "autoWhitelist";
+
+    @ConfigSection(name = "Action-Only NPCs", description = "Always show only the action for these NPCs", position = 3)
+    String ACTION_ONLY_WHITELIST = "actionOnlyWhitelist";
+
+    @ConfigSection(name = "Behavior", description = "Tooltip safety and convenience options", position = 4)
     String BEHAVIOR = "behavior";
 
     @ConfigItem(keyName = "autoShortenEnabled", name = "Enable Auto Shorten", description = "ON by default. Automatically simplify NPC and world object tooltips, even if older settings were saved. Turn off to use fallback modes below.", position = 0, section = AUTO)
@@ -40,6 +46,12 @@ public interface HoverLiteConfig extends Config
 
     @ConfigItem(keyName = "otherMode", name = "Other actions", description = "Unclassified game actions", position = 6, section = DISPLAY)
     default HoverMode otherMode() { return HoverMode.FULL; }
+
+    @ConfigItem(keyName = "npcAutoShortenWhitelist", name = "NPC names (comma-separated)", description = "Names separated by commas, e.g. Captain Pudi, Ferryman Nathwood. Capitalization does not matter. Shorten listed NPCs even when global Auto Shorten is off.", position = 0, section = AUTO_WHITELIST)
+    default String npcAutoShortenWhitelist() { return ""; }
+
+    @ConfigItem(keyName = "npcActionOnlyWhitelist", name = "NPC names (comma-separated)", description = "Names separated by commas, e.g. Duke Sucellus, General Graardor. Capitalization does not matter. Show only the action in HoverLite while keeping right-click menu text unchanged.", position = 0, section = ACTION_ONLY_WHITELIST)
+    default String npcActionOnlyWhitelist() { return ""; }
 
     @ConfigItem(keyName = "hideTrivial", name = "Ignore trivial actions", description = "Don't show hover text for Walk here, Cancel, Continue, or sliding puzzle Move", position = 0, section = BEHAVIOR)
     default boolean hideTrivial() { return true; }

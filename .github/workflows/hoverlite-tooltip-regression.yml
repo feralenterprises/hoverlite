@@ -1,0 +1,100 @@
+name: HoverLite tooltip regression and Windows playtest
+
+on:
+  pull_request:
+  push:
+    branches:
+      - feature/hoverlite-selective-tooltip-shortening-20261115
+
+permissions:
+  contents: read
+
+jobs:
+  windows-playtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out HoverLite source
+        uses: actions/checkout@v4
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.6'
+      - name: Compile, test and build portable RuneLite developer client
+        run: gradle --no-daemon -PruneliteVersion=1.13.6 clean test portableClientJar
+      - name: Verify launcher, plugin and RuneLite are in the built JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          JAR="build/libs/hoverlite-runelite-dev-all.jar"
+          test -s "$JAR"
+          unzip -p "$JAR" META-INF/MANIFEST.MF | grep -F 'Main-Class: com.feralenterprises.hoverlite.HoverLiteDevLauncher'
+          jar tf "$JAR" | grep -Fx 'com/feralenterprises/hoverlite/HoverLitePlugin.class'
+          jar tf "$JAR" | grep -Fx 'com/feralenterprises/hoverlite/HoverLiteDevLauncher.class'
+          jar tf "$JAR" | grep -Fx 'net/runelite/client/RuneLite.class'
+          sha256sum "$JAR"
+      - name: Headless RuneLite startup smoke check (not Windows login)
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'java -ea -jar "%CLIENT%" --developer-mode --debug' windows/START-HOVERLITE.bat
+          set +e
+          timeout 16s java -ea -Djava.awt.headless=true -jar build/libs/hoverlite-runelite-dev-all.jar --developer-mode --debug > /tmp/hoverlite-boot.log 2>&1
+          EXIT=$?
+          set -e
+          if ! grep -Fq 'starting up, args:' /tmp/hoverlite-boot.log; then
+            tail -100 /tmp/hoverlite-boot.log
+            echo 'RuneLite startup not reached'
+            exit 1
+          fi
+          if grep -q 'Assertions are not enabled' /tmp/hoverlite-boot.log; then
+            echo 'Developer plugin loader requires -ea'
+            exit 1
+          fi
+          echo "Boot entry reached (headless exit $EXIT); native UI still unverified."
+      - name: Package prebuilt Windows one-click ZIP
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile, shutil, hashlib, os
+          root = Path.cwd()
+          inner = root/'build'/'windows-playtest'/'HOVERLITE-RUNELITE-WINDOWS'
+          inner.mkdir(parents=True, exist_ok=True)
+          shutil.copy2(root/'windows'/'START-HOVERLITE.bat', inner/'START-HOVERLITE.bat')
+          shutil.copy2(root/'windows'/'README-FIRST.txt', inner/'README-FIRST.txt')
+          dest = inner/'PORTABLE-CLIENT'
+          dest.mkdir()
+          jar = root/'build'/'libs'/'hoverlite-runelite-dev-all.jar'
+          shutil.copy2(jar, dest/jar.name)
+          (inner/'BUILD-DETAILS.txt').write_text(
+              'Source commit: '+os.environ.get('GITHUB_SHA', 'unknown')+'\n'
+              'Portable JAR SHA256: '+hashlib.sha256(jar.read_bytes()).hexdigest()+'\n'
+              'Not merged, not Plugin Hub published, native UI unverified.\n',
+              encoding='utf-8')
+          z = root/'build'/'HOVERLITE-RUNELITE-WINDOWS.zip'
+          with zipfile.ZipFile(z,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=7) as zipf:
+              for file in sorted(inner.rglob('*')):
+                  if file.is_file():
+                      zipf.write(file, file.relative_to(inner.parent))
+          with zipfile.ZipFile(z) as zz:
+              assert zz.testzip() is None
+              for p in ('HOVERLITE-RUNELITE-WINDOWS/START-HOVERLITE.bat',
+                        'HOVERLITE-RUNELITE-WINDOWS/PORTABLE-CLIENT/hoverlite-runelite-dev-all.jar'):
+                  assert p in zz.namelist()
+              print('Verified ZIP entries:', len(zz.namelist()))
+          print('ZIP bytes:', z.stat().st_size)
+          print('ZIP SHA256:', hashlib.sha256(z.read_bytes()).hexdigest())
+          PY
+      - name: Upload Windows RuneLite playtest ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: HOVERLITE-RUNELITE-WINDOWS-PLAYTEST
+          path: build/HOVERLITE-RUNELITE-WINDOWS.zip
+          retention-days: 30
+          if-no-files-found: error

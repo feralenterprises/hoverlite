@@ -49,6 +49,8 @@ public class V05OverlayTest
                 switch (method.getName())
                 {
                     case "autoShortenEnabled": return true;
+                    case "npcAutoShortenWhitelist": return "";
+                    case "npcActionOnlyWhitelist": return "";
                     case "hideTrivial": return true;
                     case "respectNative": return false;
                     default:

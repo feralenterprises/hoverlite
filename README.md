@@ -20,3 +20,28 @@ Publish these source files to `feralenterprises/hoverlite`. For the Plugin Hub, 
 
 ## Provenance
 Derived from owner's native-tested HoverLite v0.5-R04. Removed **only** the temporary QA tooltip marker, raw-target diagnostic code, and forensic-only tests; preserved parser and action/target shortening rules. Independent official Gradle and post-clean native testing still required.
+
+## Proposed selective tooltip update (feature branch, not yet released)
+- Global **Enable Auto Shorten** still shortens supported NPC and world-object tooltips.
+- **Auto-Shorten NPCs**: optional comma-separated NPC names to shorten while global Auto Shorten is OFF.
+- **Action-Only NPCs**: optional comma-separated NPC names that show only the action, even when global Auto Shorten is ON. Example: `Duke Sucellus, General Graardor`.
+- Matching is case-insensitive and exact (not substring), and understands valid NPC combat-level suffixes and ordinary RuneLite color tags.
+- Only supported NPC interactions can use either whitelist. Selected item/spell interactions remain full; all real menu entries, targets and click behavior are unchanged.
+- Exact world-object display cases: `Sort-salvage Salvaging station` → `Sort salvage`; `Inspect Notice board` → `Inspect board`. Other object names/actions are unchanged.
+- If the native **Mouse Tooltips** plugin is also enabled, duplicate tooltip lines can still appear; disable it when testing HoverLite.
+
+**Release gate:** Run all JUnit tests and verify in the native RuneLite client before merging or updating Plugin Hub.
+
+## NPC title shortening (in PR #2; native QA still required)
+- Recognized NPC role prefixes are shortened in **tooltip text only**:
+  `Talk-to Captain Pudi` → `Talk Pudi`,
+  `Talk-to Ferryman Nathwood` → `Talk Nathwood`,
+  `Attack Commander Zilyana` → `Attack Zilyana`,
+  `Feed Duke Sucellus` → `Feed Sucellus`,
+  `Attack General Graardor` → `Attack Graardor`.
+- Keeps `Bank Banker`, `General Shopkeeper`, `King Black Dragon` unchanged.
+- Recognized role prefixes: `Captain`, `Ferryman`, `Commander`, `Duke`, `First Mate` with a proper-name remainder. `General Graardor` is an exact-case exception; do not globally strip `General`.
+- Action-Only NPCs list takes precedence over name-shortening rules.
+- Unknown/unsafe names are intentionally not shortened. No game menu actions, options, targets, or click behavior change.
+
+Settings names are player-facing only: saved config keys `npcAutoShortenWhitelist` and `npcActionOnlyWhitelist` remain unchanged for backwards compatibility. The typed NPC names are compared case-insensitively.

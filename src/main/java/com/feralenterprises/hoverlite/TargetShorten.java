@@ -44,11 +44,27 @@ final class TargetShorten
             {
                 replacement = "Coal";
             }
+            else if (action.equalsIgnoreCase("Sort-salvage") && name.equalsIgnoreCase("Salvaging station"))
+            {
+                replacement = "salvage";
+            }
+            else if (action.equalsIgnoreCase("Inspect") && name.equalsIgnoreCase("Notice board"))
+            {
+                replacement = "board";
+            }
         }
-        else if (category == HoverCategory.NPC && action.equalsIgnoreCase("Exchange")
-            && name.equalsIgnoreCase("Tool Leprechaun"))
+        else if (category == HoverCategory.NPC)
         {
-            replacement = "Leprechaun";
+            if (action.equalsIgnoreCase("Exchange") && name.equalsIgnoreCase("Tool Leprechaun"))
+            {
+                replacement = "Leprechaun";
+            }
+            else
+            {
+                // NPC titles are shortened only in HoverLite display text.
+                // Never touch RuneLite's underlying menu option or target.
+                replacement = NpcTitleShorten.shortenName(name);
+            }
         }
         return replacement == null ? target : parsed.replaceName(replacement);
     }
