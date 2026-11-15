@@ -18,14 +18,14 @@ REQUIREMENTS
 
 TEST THE ACTUAL FEATURES
 - Global Enable Auto Shorten ON: normal NPC/world-object shortening.
-- Whitelist Action Only: "Duke Sucellus, General Graardor"
+- Action-Only NPCs: "Duke Sucellus, General Graardor"
   Hover Duke: "Feed", but right-click still shows "Feed Duke Sucellus".
-- Whitelist Auto-Shorten: enter comma-separated NPC names;
+- Auto-Shorten NPCs: enter comma-separated NPC names;
   turn global Auto Shorten OFF to shorten just those names.
 - Hover Banker not in action-only list: "Bank Banker".
 - Auto Shorten ON: "Talk-to Captain Pudi" -> "Talk Pudi";
   "Talk-to Ferryman Nathwood" -> "Talk Nathwood".
-- If both whitelist lists are filled, Action Only takes precedence.
+- If both NPC list lists are filled, Action Only takes precedence.
 - "General Shopkeeper" and "King Black Dragon" must stay unchanged.
 - World objects: "Sort-salvage Salvaging station" -> "Sort salvage";
   "Inspect Notice board" -> "Inspect board".

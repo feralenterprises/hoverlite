@@ -26,7 +26,7 @@ jobs:
         with:
           gradle-version: '8.14.6'
       - name: Compile, test and build portable RuneLite developer client
-        run: gradle --no-daemon clean test portableClientJar
+        run: gradle --no-daemon -PruneliteVersion=1.13.6 clean test portableClientJar
       - name: Verify launcher, plugin and RuneLite are in the built JAR
         shell: bash
         run: |

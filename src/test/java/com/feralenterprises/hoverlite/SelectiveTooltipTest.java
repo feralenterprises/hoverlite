@@ -110,6 +110,19 @@ public class SelectiveTooltipTest
         assertEquals(0, mutations.get());
     }
 
+    @Test public void userEnteredNamesIgnoreCapitalizationInBothLists()
+    {
+        AtomicInteger mutations = new AtomicInteger();
+        HoverLiteConfig settings = config(false, " cApTaIn pUdI , ferryman NATHWOOD ", "dUKE suCellus");
+        assertEquals("Talk Pudi", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "Captain Pudi", mutations)));
+        assertEquals("Talk Nathwood", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "<col=ffff00>Ferryman Nathwood", mutations)));
+        assertEquals("Feed", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Feed", "<col=ffff00>Duke Sucellus<col=00ff00> (level-758)", mutations)));
+        assertEquals(0, mutations.get());
+    }
+
     @Test public void autoWhitelistAddsNpcShorteningWhenGlobalOff()
     {
         HoverLiteConfig settings = config(false, "Duke Sucellus, General Graardor", "");

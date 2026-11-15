@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
 }
 
-def runeLiteVersion = 'latest.release'
+def runeLiteVersion = providers.gradleProperty('runeliteVersion').orElse('latest.release').get()
 def pluginMainClass = 'com.feralenterprises.hoverlite.HoverLiteDevLauncher'
 
 dependencies {
