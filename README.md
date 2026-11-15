@@ -31,3 +31,15 @@ Derived from owner's native-tested HoverLite v0.5-R04. Removed **only** the temp
 - If the native **Mouse Tooltips** plugin is also enabled, duplicate tooltip lines can still appear; disable it when testing HoverLite.
 
 **Release gate:** Run all JUnit tests and verify in the native RuneLite client before merging or updating Plugin Hub.
+
+## NPC title shortening (in PR #2; native QA still required)
+- Recognized NPC role prefixes are shortened in **tooltip text only**:
+  `Talk-to Captain Pudi` → `Talk Pudi`,
+  `Talk-to Ferryman Nathwood` → `Talk Nathwood`,
+  `Attack Commander Zilyana` → `Attack Zilyana`,
+  `Feed Duke Sucellus` → `Feed Sucellus`,
+  `Attack General Graardor` → `Attack Graardor`.
+- Keeps `Bank Banker`, `General Shopkeeper`, `King Black Dragon` unchanged.
+- Recognized role prefixes: `Captain`, `Ferryman`, `Commander`, `Duke`, `First Mate` with a proper-name remainder. `General Graardor` is an exact-case exception; do not globally strip `General`.
+- Action Only whitelist takes precedence over name-shortening rules.
+- Unknown/unsafe names are intentionally not shortened. No game menu actions, options, targets, or click behavior change.

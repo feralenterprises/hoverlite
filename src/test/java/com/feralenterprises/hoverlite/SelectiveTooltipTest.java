@@ -114,7 +114,7 @@ public class SelectiveTooltipTest
     {
         HoverLiteConfig settings = config(false, "Duke Sucellus, General Graardor", "");
         AtomicInteger mutations = new AtomicInteger();
-        assertEquals("Feed Duke Sucellus", draw(settings,
+        assertEquals("Feed Sucellus", draw(settings,
             entry(MenuAction.NPC_FIRST_OPTION, "Feed", "Duke Sucellus (level-758)", mutations)));
         assertEquals("Attack Guard (level-21)", draw(settings,
             entry(MenuAction.NPC_FIRST_OPTION, "Attack", "Guard (level-21)", mutations)));
@@ -158,6 +158,57 @@ public class SelectiveTooltipTest
         assertEquals("Sort-salvage Salvaging station (damaged)", draw(settings,
             entry(MenuAction.GAME_OBJECT_FIRST_OPTION, "Sort-salvage", "Salvaging station (damaged)", mutations)));
         assertEquals(0, mutations.get());
+    }
+
+    @Test public void globalAutoShortenShortensNpcTitlesWithoutMenuMutation()
+    {
+        HoverLiteConfig settings = config(true, "", "");
+        for (String[] sample : new String[][]{
+            {"Talk-to", "Captain Pudi", "Talk Pudi"},
+            {"Talk-to", "Ferryman Nathwood", "Talk Nathwood"},
+            {"Attack", "Commander Zilyana", "Attack Zilyana"},
+            {"Feed", "Duke Sucellus", "Feed Sucellus"},
+            {"Attack", "General Graardor", "Attack Graardor"},
+            {"Talk-to", "First Mate Deri", "Talk Deri"}
+        })
+        {
+            AtomicInteger mutations = new AtomicInteger();
+            MenuEntry original = entry(MenuAction.NPC_FIRST_OPTION, sample[0], sample[1], mutations);
+            assertEquals(sample[1], sample[2], draw(settings, original));
+            assertEquals(sample[0], original.getOption());
+            assertEquals(sample[1], original.getTarget());
+            assertEquals(0, mutations.get());
+        }
+    }
+
+    @Test public void titleWhitelistWorksWhenGlobalAutoShortenIsDisabled()
+    {
+        HoverLiteConfig settings = config(false, "Captain Pudi, Ferryman Nathwood", "");
+        assertEquals("Talk Pudi", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "Captain Pudi", new AtomicInteger())));
+        assertEquals("Talk Nathwood", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "Ferryman Nathwood", new AtomicInteger())));
+        assertEquals("Talk-to Commander Zilyana", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "Commander Zilyana", new AtomicInteger())));
+    }
+
+    @Test public void actionOnlyWhitelistOverridesAutomaticTitleRemoval()
+    {
+        HoverLiteConfig settings = config(true, "Captain Pudi, Ferryman Nathwood", "Captain Pudi");
+        assertEquals("Talk-to", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "Captain Pudi", new AtomicInteger())));
+        assertEquals("Talk Nathwood", draw(settings,
+            entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", "Ferryman Nathwood", new AtomicInteger())));
+    }
+
+    @Test public void genericAndUntitledNpcsAreNotClobbered()
+    {
+        HoverLiteConfig settings = config(true, "", "");
+        for (String name : new String[]{"Banker", "General Shopkeeper", "King Black Dragon", "Captain guard"})
+        {
+            assertEquals(name, "Talk " + name, draw(settings,
+                entry(MenuAction.NPC_FIRST_OPTION, "Talk-to", name, new AtomicInteger())));
+        }
     }
 
     @Test public void unknownActionTypesDoNotUseWhitelist()

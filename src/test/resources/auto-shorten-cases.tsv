@@ -34,7 +34,7 @@ HLT-032	NPC	Collect	Banker	Collect Banker	legacy_fixture
 HLT-033	NPC	Exchange	Tool Leprechaun	Exchange Leprechaun	screenshots
 HLT-034	NPC	Talk-to	Tool Leprechaun	Talk Tool Leprechaun	legacy_fixture
 HLT-035	NPC	Milk	Dairy cow	Milk Dairy cow	screenshots
-HLT-036	NPC	Feed	Duke Sucellus (level-758)	Feed Duke Sucellus	legacy_fixture
+HLT-036	NPC	Feed	Duke Sucellus (level-758)	Feed Sucellus	legacy_fixture
 HLT-037	NPC	Attack	Ram<col=00ff00> (level-2)	Attack Ram<col=00ff00> (level-2)	legacy_fixture
 HLT-038	NPC	Attack	<col=ffff00>Undead one<col=00ff00> (level-73)	Attack <col=ffff00>Undead one	legacy_fixture
 HLT-039	NPC	Attack	<col=ffff00>Undead one</col><col=00ff00> (level-73)</col>	Attack <col=ffff00>Undead one</col>	legacy_fixture
@@ -123,7 +123,7 @@ INT006-121	GAME_OBJECT	Drink	Ornate pool (upgraded)	Drink Ornate pool (upgraded)
 INT006-122	NPC	Trade-with	Banker	Trade-with Banker	npc_safety
 INT006-123	NPC	Talk-to	Banker (level-99)	Talk Banker	npc_safety
 INT006-124	NPC	Examine	Undead one (level-73)	Examine Undead one	npc_safety
-INT006-125	NPC	Feed	Duke Sucellus (level-758)	Feed Duke Sucellus	npc_safety
+INT006-125	NPC	Feed	Duke Sucellus (level-758)	Feed Sucellus	npc_safety
 INT006-126	NPC	Attack	Undead one (level-73) (level-90)	Attack Undead one (level-73) (level-90)	npc_safety
 INT006-127	NPC	Attack	<img=1><col=ffff00>Undead one (level-73)</col>	Attack <img=1><col=ffff00>Undead one (level-73)</col>	npc_safety
 INT006-128	NPC	Attack	<col=zzzzzz>Undead one (level-73)</col>	Attack <col=zzzzzz>Undead one (level-73)</col>	npc_safety
@@ -173,7 +173,7 @@ INT006-172	NPC	Attack	Undead one (level-68)	Attack Undead one	npc_level_expansio
 INT006-173	NPC	Attack	Undead one (level-73)	Attack Undead one	npc_level_expansion
 INT006-174	NPC	Attack	Imp (level-2)	Attack Imp	npc_level_expansion
 INT006-175	NPC	Attack	Lizardman brute (level-75)	Attack Lizardman brute	npc_level_expansion
-INT006-176	NPC	Attack	Duke Sucellus (level-758)	Attack Duke Sucellus	npc_level_expansion
+INT006-176	NPC	Attack	Duke Sucellus (level-758)	Attack Sucellus	npc_level_expansion
 INT006-177	NPC	Attack	Goblin (level-2)	Attack Goblin	npc_level_expansion
 INT006-178	NPC	Attack	Ram (level-2)	Attack Ram	npc_level_expansion
 INT006-179	NPC	Attack	Tormented demon (level-450)	Attack Tormented demon	npc_level_expansion
@@ -210,3 +210,14 @@ HLT-208	GAME_OBJECT	Check-health	Fruit tree	Check-health Fruit tree	safety_prote
 HLT-209	GAME_OBJECT	Mine	Mithril rocks	Mine Mithril rocks	not_approved
 HLT-210	GAME_OBJECT	Chop down	Blisterwood tree	Chop down Blisterwood tree	not_approved
 HLT-211	GAME_OBJECT	Deposit	Bank Deposit Chest	Deposit Bank Deposit Chest	not_approved
+HLT-TITLE-01	NPC	Talk-to	Captain Pudi	Talk Pudi	owner_screenshot
+HLT-TITLE-02	NPC	Talk-to	Ferryman Nathwood	Talk Nathwood	owner_screenshot
+HLT-TITLE-03	NPC	Attack	Commander Zilyana	Attack Zilyana	user_request
+HLT-TITLE-04	NPC	Feed	Duke Sucellus	Feed Sucellus	user_request
+HLT-TITLE-05	NPC	Attack	General Graardor	Attack Graardor	user_request
+HLT-TITLE-06	NPC	Talk-to	First Mate Deri	Talk Deri	user_request
+HLT-TITLE-07	NPC	Talk-to	General Shopkeeper	Talk General Shopkeeper	negative_regression
+HLT-TITLE-08	NPC	Talk-to	Banker	Talk Banker	negative_regression
+HLT-TITLE-09	NPC	Talk-to	King Black Dragon	Talk King Black Dragon	negative_regression
+HLT-TITLE-10	NPC	Talk-to	<col=ffff00>Captain Pudi	Talk <col=ffff00>Pudi	colored_markup
+HLT-TITLE-11	NPC	Talk-to	<col=ffff00>Ferryman Nathwood	Talk <col=ffff00>Nathwood	colored_markup
