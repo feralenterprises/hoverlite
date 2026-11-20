@@ -16,6 +16,13 @@ Screenshot references for issue #3 were shared in chat, not attached to GitHub. 
 - **Do not infer Plugin Hub publication or current end-user version from a source merge.** Check the actual Plugin Hub reference and the exact native client build when planning the update.
 - No functional changes should be merged merely because a newly observed issue is present in this backlog.
 
+## Pre-release interaction simulation (new QA gate)
+- [Issue #5: Comprehensive interaction matrix and read-only simulation](https://github.com/feralenterprises/hoverlite/issues/5) is **captured, not run**.
+- Inventory every current RuneLite `MenuAction` and category, then use deterministic fixtures and generated edge cases to exercise the actual overlay/presentation logic.
+- Baseline corpus at intake: **222 existing table-driven cases across 7 categories**; current passing status not verified here.
+- Report unsupported interactions and real-game coverage limits honestly. No live gameplay automation, no source behavior change, and no Plugin Hub release as part of this QA task.
+- Run exact Java 17 Gradle tests and owner Windows RuneLite checks before calling an integration candidate release-ready.
+
 ## Release checklist
 - [ ] Review open issues, confirm the exact batch scope and deduplicate.
 - [ ] Verify current `main`, Plugin Hub commit/version and existing configuration compatibility.
