@@ -45,3 +45,7 @@ Derived from owner's native-tested HoverLite v0.5-R04. Removed **only** the temp
 - Unknown/unsafe names are intentionally not shortened. No game menu actions, options, targets, or click behavior change.
 
 Settings names are player-facing only: saved config keys `npcAutoShortenWhitelist` and `npcActionOnlyWhitelist` remain unchanged for backwards compatibility. The typed NPC names are compared case-insensitively.
+
+## Maintaining future HoverLite updates
+
+HoverLite updates are bundled rather than shipped for every new tooltip report. New findings belong in [GitHub Issues](https://github.com/feralenterprises/hoverlite/issues) using the **HoverLite discovery** template. For the working agreement, planned batch and verified/example corpus, see [workflow](docs/WORKFLOW.md), [next release](docs/NEXT_RELEASE.md), and [regression cases](docs/REGRESSION_CASES.md). Logging a case does not implement or publish it.
